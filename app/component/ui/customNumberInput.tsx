@@ -22,11 +22,13 @@ export const CustomNumberInput = ({
         placeholder={placeholder}
         value={value}
         type="text"
-        pattern="[0-9]*"
+        pattern="[0-9]*,?[0-9]*"
         onChange={(e) => {
-          const updatedValue = e.target.value;
-          localStorage.setItem(variableName, updatedValue);
-          onChange(updatedValue);
+          const inputValue = e.target.value;
+          if (/^\d*,?\d*$/.test(inputValue) || inputValue === "") {
+            localStorage.setItem(variableName, inputValue);
+            onChange(inputValue);
+          }
         }}
       />
     )}

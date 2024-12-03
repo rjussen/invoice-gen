@@ -5,6 +5,7 @@ import { CompanyDetailsPdf } from "./companyDetails/companyDetailsPdf";
 import { InvoiceDetailsPdf } from "./invoiceDetails/invoiceDetailsPdf";
 import { PaymentDetailsPdf } from "./paymentDetails/paymentDetailsPdf";
 import { pdfUtils } from "@/lib/pdfStyles";
+import { getLabels } from "@/lib/translations";
 
 export const PdfDetails = ({
   yourDetails,
@@ -20,30 +21,34 @@ export const PdfDetails = ({
   paymentDetails: PaymentDetails;
   invoiceTerms: InvoiceTerms;
   countryImageUrl: string;
-}) => (
-  <View>
-    <InvoiceTermsPdf {...invoiceTerms} />
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        ...pdfUtils.borderTop,
-        ...pdfUtils.borderBottom,
-      }}
-    >
-      <YourDetailsPDF {...yourDetails} />
-      <CompanyDetailsPdf {...companyDetails} />
-    </View>
+}) => {
+  const labels = getLabels();
+
+  return (
     <View>
-      <View style={pdfUtils.borderBottom}>
-        <InvoiceDetailsPdf {...invoiceDetails} />
+      <InvoiceTermsPdf {...invoiceTerms} />
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          ...pdfUtils.borderTop,
+          ...pdfUtils.borderBottom,
+        }}
+      >
+        <YourDetailsPDF {...yourDetails} />
+        <CompanyDetailsPdf {...companyDetails} />
       </View>
       <View>
-        <PaymentDetailsPdf
-          {...paymentDetails}
-          countryImageUrl={countryImageUrl}
-        />
+        <View style={pdfUtils.borderBottom}>
+          <InvoiceDetailsPdf {...invoiceDetails} />
+        </View>
+        <View>
+          <PaymentDetailsPdf
+            {...paymentDetails}
+            countryImageUrl={countryImageUrl}
+          />
+        </View>
       </View>
     </View>
-  </View>
-);
+  );
+};

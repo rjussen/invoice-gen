@@ -106,17 +106,14 @@ export const InvoiceDetailsForm = () => {
                         placeholder="Price"
                         value={`${amount || ""}`}
                         type="text"
-                        pattern="[0-9]*"
+                        pattern="[0-9]*,?[0-9]*"
                         onChange={(e) => {
                           const inputValue = e.target.value;
-                          if (
-                            /^-?\d*\.?\d*$/.test(inputValue) ||
-                            inputValue === ""
-                          ) {
+                          if (/^\d*,?\d*$/.test(inputValue) || inputValue === "") {
                             const updatedArray = [...value];
                             updatedArray[index] = {
                               itemDescription,
-                              amount: +inputValue,
+                              amount: inputValue,
                               qty,
                             };
                             localStorage.setItem(

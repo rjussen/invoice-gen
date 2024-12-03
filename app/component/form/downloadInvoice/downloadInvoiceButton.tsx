@@ -11,6 +11,10 @@ import { pdf } from "@react-pdf/renderer";
 import { svgToDataUri } from "@/lib/svgToDataUri";
 import { useEffect, useState } from "react";
 import { currencyList } from "@/lib/currency";
+import { LanguageToggle } from "@/app/component/ui/languageToggle";
+import { getPdfLanguage } from "@/lib/utils";
+import { getLabels } from "@/lib/translations";
+
 export const DownloadInvoiceButton = () => {
   const [status, setStatus] = useState<
     "downloaded" | "downloading" | "not-downloaded"
@@ -22,6 +26,16 @@ export const DownloadInvoiceButton = () => {
     paymentDetails,
     yourDetails,
   } = useData();
+  const [language, setLanguage] = useState(getPdfLanguage());
+  const labels = getLabels();
+
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setLanguage(getPdfLanguage());
+    };
+    window.addEventListener("storage", handleLanguageChange);
+    return () => window.removeEventListener("storage", handleLanguageChange);
+  }, []);
 
   useEffect(() => {
     if (status === "downloaded") {
@@ -34,10 +48,13 @@ export const DownloadInvoiceButton = () => {
   return (
     <div className="flex h-[calc(100vh-208px)] justify-center items-center">
       <div>
-        <h1 className="text-5xl font-semibold pb-6">Your invoice is ready</h1>
+        <h1 className="text-5xl font-semibold pb-6">{labels.invoiceReady}</h1>
         <p className="text-neutral-500 text-xl pb-7">
-          Please review the details carefully before downloading your invoice.
+          {labels.reviewMessage}
         </p>
+        <div className="mb-4">
+          <LanguageToggle />
+        </div>
         <Button
           disabled={status === "downloading"}
           onClick={async () => {
@@ -72,6 +89,7 @@ export const DownloadInvoiceButton = () => {
                         paymentDetails={paymentDetails}
                         yourDetails={yourDetails}
                         countryImageUrl={countryImageUrl}
+                        key={language}
                       />
                     </Page>
                   </Document>
@@ -91,18 +109,18 @@ export const DownloadInvoiceButton = () => {
         >
           {status === "not-downloaded" && (
             <>
-              <Download className="mr-2 h-6 w-6" /> Download Invoice
+              <Download className="mr-2 h-6 w-6" /> {labels.downloadInvoice}
             </>
           )}
           {status === "downloading" && (
             <>
               <LoaderIcon className="mr-2 h-6 w-6 animate-spin" />{" "}
-              Downloading...
+              {labels.downloadingInvoice}
             </>
           )}
           {status === "downloaded" && (
             <>
-              <CheckCircle2 className="mr-2 h-6 w-6" /> Downloaded
+              <CheckCircle2 className="mr-2 h-6 w-6" /> {labels.downloaded}
             </>
           )}
         </Button>

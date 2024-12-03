@@ -1,5 +1,6 @@
 import { currencyList } from "@/lib/currency";
 import { ChevronDown } from "lucide-react";
+import { getLabels } from "@/lib/translations";
 
 export const PaymentDetailsPreview: React.FC<
   PaymentDetails & { onClick?: (step: string) => void }
@@ -17,6 +18,7 @@ export const PaymentDetailsPreview: React.FC<
     (currencyDetails) =>
       currencyDetails.value.toLowerCase() === currency.toLowerCase()
   )?.details;
+  const labels = getLabels();
 
   return (
     <div
@@ -33,12 +35,12 @@ export const PaymentDetailsPreview: React.FC<
       )}
       <div className="py-4 pl-10 pr-3">
         <p className="text-[11px] text-neutral-400 font-medium uppercase mb-3">
-          Bank Details
+          {labels.bankDetails}
         </p>
         <div className="space-y-1">
           <div className="grid grid-cols-2 items-center">
             <p className="truncate text-xs font-medium text-gray-500">
-              Bank Name
+              {labels.bankName}
             </p>
             {bankName ? (
               <p className="flex truncate text-xs font-medium text-gray-600">
@@ -50,7 +52,7 @@ export const PaymentDetailsPreview: React.FC<
           </div>
           <div className="mb-2 grid grid-cols-2 items-center">
             <p className="truncate text-xs font-medium text-gray-500">
-              Account Number
+              {labels.accountNumber}
             </p>
             {accountNumber ? (
               <p className="flex truncate text-xs font-medium text-gray-600">
@@ -62,7 +64,7 @@ export const PaymentDetailsPreview: React.FC<
           </div>
           <div className="mb-2 grid grid-cols-2 items-center">
             <p className="truncate text-xs font-medium text-gray-500">
-              Account Name
+              {labels.accountName}
             </p>
             {accountName ? (
               <p className="flex truncate text-xs font-medium text-gray-600">
@@ -74,7 +76,7 @@ export const PaymentDetailsPreview: React.FC<
           </div>
           <div className="mb-2 grid grid-cols-2 items-center">
             <p className="truncate text-xs font-medium text-gray-500">
-              Swift Code
+              {labels.swiftBic}
             </p>
             {swiftCode ? (
               <p className="flex truncate text-xs font-medium text-gray-600">
@@ -108,7 +110,7 @@ export const PaymentDetailsPreview: React.FC<
       </div>
       <div className="py-4 px-10">
         <p className="text-[11px] text-neutral-400 font-medium uppercase mb-3">
-          Payable in
+          {labels.payableIn}
         </p>
         {currencyDetails && (
           <div className="flex gap-2 justify-between items-center w-full">

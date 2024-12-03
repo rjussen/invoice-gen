@@ -3,6 +3,7 @@ import React from "react";
 import { Image, Text, View } from "@react-pdf/renderer";
 import { currencyList } from "@/lib/currency";
 import { pdfTypography, pdfUtils } from "@/lib/pdfStyles";
+import { getLabels } from "@/lib/translations";
 
 interface PaymentDetailsPdfProps extends PaymentDetails {
   countryImageUrl: string;
@@ -23,6 +24,8 @@ export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
       currencyDetail.value.toLowerCase() === currency.toLowerCase()
   )?.details;
 
+  const labels = getLabels();
+
   return (
     <View
       style={{
@@ -40,11 +43,11 @@ export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
         }}
       >
         <Text style={{ paddingBottom: 12, ...pdfTypography.title }}>
-          Bank Details
+          {labels.bankDetails}
         </Text>
         <View style={{ flexDirection: "column", gap: 5 }}>
           <View style={pdfUtils.flexRowItemCenter}>
-            <Text style={pdfTypography.paymentTitle}>Bank Name</Text>
+            <Text style={pdfTypography.paymentTitle}>{labels.bankName}</Text>
             <Text
               style={{
                 flex: 1,
@@ -56,7 +59,7 @@ export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
             </Text>
           </View>
           <View style={pdfUtils.flexRowItemCenter}>
-            <Text style={pdfTypography.paymentTitle}>Account Number</Text>
+            <Text style={pdfTypography.paymentTitle}>{labels.accountNumber}</Text>
             <Text
               style={{
                 flex: 1,
@@ -68,7 +71,7 @@ export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
             </Text>
           </View>
           <View style={pdfUtils.flexRowItemCenter}>
-            <Text style={pdfTypography.paymentTitle}>Account Name</Text>
+            <Text style={pdfTypography.paymentTitle}>{labels.accountName}</Text>
             <Text
               style={{
                 flex: 1,
@@ -80,7 +83,7 @@ export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
             </Text>
           </View>
           <View style={pdfUtils.flexRowItemCenter}>
-            <Text style={pdfTypography.paymentTitle}>Swift Code</Text>
+            <Text style={pdfTypography.paymentTitle}>{labels.swiftCode}</Text>
             <Text
               style={{
                 flex: 1,
@@ -93,7 +96,7 @@ export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
           </View>
           {ifscCode ? (
             <View style={pdfUtils.flexRowItemCenter}>
-              <Text style={pdfTypography.paymentTitle}>IFSC Code</Text>
+              <Text style={pdfTypography.paymentTitle}>{labels.ifscCode}</Text>
               <Text
                 style={{
                   flex: 1,
@@ -107,7 +110,7 @@ export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
           ) : undefined}
           {routingCode ? (
             <View style={pdfUtils.flexRowItemCenter}>
-              <Text style={pdfTypography.paymentTitle}>Routing Code</Text>
+              <Text style={pdfTypography.paymentTitle}>{labels.routingCode}</Text>
               <Text
                 style={{
                   flex: 1,
@@ -131,7 +134,7 @@ export const PaymentDetailsPdf: React.FC<PaymentDetailsPdfProps> = ({
         }}
       >
         <Text style={{ ...pdfTypography.title, paddingBottom: 12 }}>
-          Payable in
+          {labels.payableIn}
         </Text>
         {currencyDetails && (
           <View style={{ ...pdfUtils.flexRowItemCenter, gap: 8 }}>

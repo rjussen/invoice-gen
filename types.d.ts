@@ -33,7 +33,7 @@ interface InvoiceItemDetails {
 interface Item {
   itemDescription: string;
   qty?: number;
-  amount?: number;
+  amount?: string;
 }
 
 interface InvoiceTerms {

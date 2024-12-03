@@ -32,12 +32,12 @@ export const YourDetailsForm = () => (
     />
     <CustomTextInput
       label="State"
-      placeholder="Karnataka"
+      placeholder="Limburg"
       variableName="yourState"
     />
-    <CustomNumberInput
+    <CustomTextInput
       label="Zip"
-      placeholder="560066"
+      placeholder="6461TD"
       variableName="yourZip"
     />
     <CustomTextInput

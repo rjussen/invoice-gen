@@ -2,6 +2,8 @@
 import React from "react";
 import { currencyList } from "@/lib/currency";
 import { ChevronDown } from "lucide-react";
+import { getLabels } from "@/lib/translations";
+import { parseEuroNumber, formatEuroNumber } from "@/lib/utils";
 
 export const InvoiceDetailsPreview: React.FC<
   InvoiceItemDetails & { onClick?: (step: string) => void }
@@ -14,6 +16,7 @@ export const InvoiceDetailsPreview: React.FC<
   const discountAmount = subtotal - (discount ? +discount : 0);
   const taxAmount = discountAmount * ((taxRate ? +taxRate : 0) / 100);
   const totalAmount = discountAmount + taxAmount;
+  const labels = getLabels();
 
   return (
     <div
@@ -31,23 +34,23 @@ export const InvoiceDetailsPreview: React.FC<
       <div className="grid grid-cols-2 items-center">
         <div className="py-4 px-10">
           <p className="text-[11px] text-neutral-400 font-medium uppercase">
-            Description
+            {labels.description}
           </p>
         </div>
         <div className="py-4 px-10 grid grid-cols-3 items-center">
           <div>
             <p className="text-[11px] text-neutral-400 font-medium uppercase">
-              QTY
+              {labels.qty}
             </p>
           </div>
           <div>
             <p className="text-[11px] text-neutral-400 font-medium uppercase">
-              Price
+              {labels.price}
             </p>
           </div>
           <div>
             <p className="text-[11px] text-neutral-400 font-medium uppercase text-right">
-              Amount
+              {labels.amount}
             </p>
           </div>
         </div>
@@ -67,11 +70,11 @@ export const InvoiceDetailsPreview: React.FC<
               {qty || "-"}
             </p>
             <p className="flex truncate text-xs font-medium text-gray-600">
-              {amount ? addCommasToNumber(amount) : ""}
+              {amount || ""}
             </p>
             <p className="flex items-end w-full text-xs font-medium text-gray-600 text-right justify-end">
               {currencyDetails?.currencySymbol}
-              {amount ? addCommasToNumber((qty ? qty : 1) * amount) : ""}
+              {amount ? formatEuroNumber(parseEuroNumber(amount) * (qty ? qty : 1)) : ""}
             </p>
           </div>
         </div>
@@ -80,7 +83,7 @@ export const InvoiceDetailsPreview: React.FC<
         {note ? (
           <div className="pt-6 pb-4">
             <p className="flex truncate text-xs font-medium text-neutral-400 pb-1 px-10">
-              Note
+              {labels.note}
             </p>
             <p className="text-xs font-medium text-neutral-400 px-10 break-words">
               {note}
@@ -92,7 +95,7 @@ export const InvoiceDetailsPreview: React.FC<
         <div>
           <div className="flex justify-between items-center mx-10 border-b border-dashed py-3">
             <p className="flex truncate text-xs font-medium text-gray-600">
-              Subtotal
+              {labels.subtotal}
             </p>
             <p className="flex truncate text-xs font-medium text-gray-600">
               {currencyDetails?.currencySymbol}
@@ -102,7 +105,7 @@ export const InvoiceDetailsPreview: React.FC<
           {discount && (
             <div className="flex justify-between items-center mx-10 border-b border-dashed py-3">
               <p className="flex truncate text-xs font-medium text-gray-600">
-                Discount
+                {labels.discount}
               </p>
               <p className="flex truncate text-xs font-medium text-gray-600">
                 {currencyDetails?.currencySymbol}
@@ -113,7 +116,7 @@ export const InvoiceDetailsPreview: React.FC<
           {taxRate && (
             <div className="flex justify-between items-center mx-10 border-b border-dashed py-3">
               <p className="flex truncate text-xs font-medium text-gray-600">
-                Tax ({taxRate})%
+                {labels.tax} ({taxRate}%)
               </p>
               <p className="flex truncate text-xs font-medium text-gray-600">
                 {currencyDetails?.currencySymbol}
@@ -124,7 +127,7 @@ export const InvoiceDetailsPreview: React.FC<
           <div className="flex justify-between items-center px-10 py-3">
             <div>
               <p className="flex truncate text-xs font-medium text-gray-600">
-                Amount
+                {labels.amount}
               </p>
             </div>
             <p className="flex truncate text-md font-medium">
@@ -141,13 +144,10 @@ export const InvoiceDetailsPreview: React.FC<
 const calculateTotalAmount = (items: Item[]): number =>
   items.reduce((total, item) => {
     const quantity = item.qty ? +item.qty : 1;
-    const amount = item.amount ? +item.amount : 0;
+    const amount = parseEuroNumber(item.amount || "0");
     return total + quantity * amount;
   }, 0);
 
 const addCommasToNumber = (number: number): string => {
-  let numberString = number.toString();
-  const parts = numberString.split(".");
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return parts.join(".");
+  return formatEuroNumber(number);
 };

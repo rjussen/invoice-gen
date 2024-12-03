@@ -9,43 +9,6 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_URL!),
-  alternates: {
-    canonical: "/",
-    languages: {
-      "en-US": "/en-US",
-    },
-  },
-  title:
-    "Free Invoice Generator: Create & Send Professional Invoices in Minutes",
-  description:
-    "Get paid on time with our free invoice maker. Create professional invoices & get them to clients instantly.",
-  keywords: [
-    "invoice generator",
-    "free invoice template",
-    "invoice maker",
-    "online invoice",
-    "create invoice",
-  ],
-  robots: "index, follow",
-  openGraph: {
-    title:
-      "Free Invoice Generator: Create & Send Professional Invoices in Minutes",
-    description:
-      "Get paid on time with our free invoice maker. Create professional invoices & get them to clients instantly.",
-    url: process.env.NEXT_PUBLIC_URL,
-    type: "website",
-    images: "/og-image.jpeg",
-    siteName: "Invoice Generator",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@ThatsPranav",
-    creator: "@ThatsPranav",
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
