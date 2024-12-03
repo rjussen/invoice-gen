@@ -1,7 +1,28 @@
+import React from "react";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { GeistSans } from "geist/font/sans";
-import Script from "next/script";
+
+export const metadata: Metadata = {
+  title: "Invoice Generator",
+  description: "Generate professional invoices easily",
+  icons: {
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    other: [
+      { rel: "manifest", url: "/site.webmanifest" },
+      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#f97316" },
+    ],
+  },
+  themeColor: "#f97316",
+  appleWebApp: {
+    title: "Invoice Generator",
+    statusBarStyle: "default",
+  },
+};
 
 export const viewport: Viewport = {
   themeColor: "#f97316",
@@ -16,30 +37,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#f97316" />
-        <meta name="msapplication-TileColor" content="#f97316" />
-        <meta name="theme-color" content="#f97316" />
-      </head>
-      <body className={`${GeistSans.className}`}>{children}</body>
+      <body className={GeistSans.className}>
+        <React.StrictMode>{children}</React.StrictMode>
+      </body>
     </html>
   );
 }
